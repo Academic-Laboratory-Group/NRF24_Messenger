@@ -1,5 +1,14 @@
 Dependencies for Project 'SPImessenger', Target 'CMSIS-DAP': (DO NOT MODIFY !)
-F (.\main.c)(0x5E10A1A7)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_CMSIS-DAP-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x5E10A74F)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_CMSIS-DAP-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
+I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
+I (SPImessenger.h)(0x5E10A6D4)
+F (.\SPImessenger.c)(0x5E10A7BB)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_CMSIS-DAP-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\spimessenger.o --omf_browse .\objects\spimessenger.crf --depend .\objects\spimessenger.d)
+I (SPImessenger.h)(0x5E10A6D4)
 I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
 I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
 I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)

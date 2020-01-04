@@ -387,6 +387,11 @@
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
             </File>
+            <File>
+              <FileName>SPImessenger.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SPImessenger.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
