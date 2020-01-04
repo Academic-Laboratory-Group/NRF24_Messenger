@@ -3,7 +3,7 @@
 
 #include "MKL05Z4.h"
 
-void messengerInit();
-uint8_t messengerUpdate();
+void messenger_Init(void);
+uint8_t messenger_Update(void);
 
 #endif // NRF24_Messenger_h

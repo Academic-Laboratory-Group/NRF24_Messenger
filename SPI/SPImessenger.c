@@ -1,7 +1,9 @@
 #include "SPImessenger.h"
 #include "MKL05Z4.h"
 
-void SPIInit ( void ) 
+char * received_data;
+
+void SPI_Init ( void ) 
 {
    
   SIM -> SCGC4 |= SIM_SCGC4_SPI0_MASK ;       // wlacz zegar do modulu spi0
@@ -36,8 +38,18 @@ void SPIInit ( void )
 	SPI0->C1 |= SPI_C1_SPE_MASK;			//wlacz System SPI
 }
 
-void SPI_Transmit (char data)
+void SPI_Transmit (char * data)
 {
 	while(!(SPI0->S & SPI_S_SPTEF_MASK));
-	SPI0->D = data;
+	SPI0->D = *data;
+}
+
+uint8_t SPI_Receive(char * data)
+{
+	if (*received_data != *data)
+	{
+		*data = *received_data;
+		return 1;
+	}
+	return 0;
 }

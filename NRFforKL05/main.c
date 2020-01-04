@@ -3,10 +3,10 @@
 int main(void)
 {
 	//SETUP
-	messengerInit();
+	messenger_Init();
 	
 	//LOOP
-	while(messengerUpdate());
+	while(messenger_Update());
 	
 	//EXIT
 	return 0;

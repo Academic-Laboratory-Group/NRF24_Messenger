@@ -1,7 +1,14 @@
 #include "uart0messenger.h"
 #include "MKL05Z4.h"
 
-void uart0Init(uint32_t naud_rate)
+char * received_data;
+
+void ASCII_Encoder(uint8_t received)
+{
+	*received_data = (char)((uint32_t)received);
+}
+
+void UART0_Init(uint32_t naud_rate)
 {
 	uint32_t divisor;
 	SIM->SCGC4 |= SIM_SCGC4_UART0_MASK;
@@ -33,8 +40,14 @@ void UART0_Transmit(char * data)
 	UART0->D = *data;
 }
 
-uint8_t UART0_Receive(void)
+uint8_t UART0_Receive(char * data)
 {
 	while (!(UART0->S1 & UART0_S1_RDRF_MASK));
-	return UART0->D;
+	ASCII_Encoder(UART0->D);
+	if (*received_data != *data)
+	{
+		*data = *received_data;
+		return 1;
+	}
+	return 0;
 }

@@ -1,17 +1,32 @@
 #include "NRF24_Messenger.h"
 #include "../UART0/uart0messenger.h"
+#include "../SPI/SPImessenger.h"
 
-char * MISO[]{};
-char * MOSI[]{};
+char * MISO;
+char * MOSI;
 	
-void messengerInit()
+enum STATES STATE;
+
+void messengerInit(void)
 {
-	uart0Init(9600);
+	UART0_Init(9600);
+	SPI_Init();
 }
 
-uint8_t messengerUpdate()
+uint8_t messengerUpdate(void)
 {
-	//Check activity on UART side
-	MOSI = UART0_Receive();
+	// Check activity on UART side
+	if (UART0_Receive(MISO))
+	{
+		SPI_Transmit(MISO);
+	}
+	 
+	// Check activity on SPI side 
+	// (if UART has nothing to do)
+	else if (SPI_Receive(MOSI))
+	{
+		UART0_Transmit(MOSI);
+	}
+
 	return 1;
 }
