@@ -1,59 +1,40 @@
 #include "MKL05Z4.h"
 
-void ledsInit(void)
-{
-	SIM->SCGC5 |=  (SIM_SCGC5_PORTB_MASK);      
-  PORTB->PCR[9] = PORT_PCR_MUX(1UL);                       
-
-	PTB->PDDR |= 1UL << 9;
-}
-
-void BlinkLED(void){
- uint32_t i = 0;
-
- PTB->PTOR = 1UL << 9;
- for(i = 0; i < 3000000; i++){};
-}
-
-
-void spiInit ( void ) {
+void SPIInit ( void ) {
    
     SIM -> SCGC4 |= SIM_SCGC4_SPI0_MASK ;       // wlacz zegar do modulu spi0
    
     SIM -> SCGC5 |= (SIM_SCGC5_PORTA_MASK | SIM_SCGC5_PORTB_MASK);     // wlacz zegar do portu A.
 	
 		SPI0 -> C1 &=~ SPI_C1_SPE_MASK ;         // Wylacz system SPI
+		PORTA -> PCR[5] &= ~PORT_PCR_MUX_MASK;
+		PORTA -> PCR[5] |= PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			  //SS
 	
-    PORTA -> PCR [7] |= PORT_PCR_MUX (2) ;       // pin7 w porcie A to SPI0 MOSI
+    PORTA -> PCR[6] &= ~PORT_PCR_MUX_MASK;
+		PORTA -> PCR[6] |= PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			  //MISO 
 	
-		PORTA -> PCR [6] |= PORT_PCR_MUX (2);					// pin6 w porcie A to SPI0 MISO
-   
-    PORTB -> PCR [0] |= PORT_PCR_MUX (2) ;       // pin0 w porcie B to SPI0 SCLK
-   
-    PORTA -> PCR [ 10 ] |= PORT_PCR_MUX (1) ;       // pin10 w porcie A to SS
- 
-    SPI0 -> C1 |= SPI_C1_MSTR_MASK ;       // Wybrano tryb glówny
-   
-    SPI0 -> C1 |= SPI_C1_CPOL_MASK ;       // Biegunowosc zegara - aktywny wysoki  //
-   
-    SPI0 -> C1 &=~ SPI_C1_CPHA_MASK ;       // srodek transmisji										
+    PORTA -> PCR[7] &= ~PORT_PCR_MUX_MASK;
+		PORTA -> PCR[7] |= PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			  //MOSI
+	
+    PORTB -> PCR[0] &= ~PORT_PCR_MUX_MASK;
+		PORTB -> PCR[0] = PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			    //SCK
+	
+	
+		SPI0->C1 |= SPI_C1_MSTR_MASK;
+		SPI0->BR = 0x06;								//bate  rate
+		SPI0->C1 |= SPI_C1_SSOE_MASK;      
+		SPI0->C2 |= SPI_C2_MODFEN_MASK;
 
-    SPI0 -> C1 &=~ SPI_C1_LSBFE_MASK ;     // start transmisji z msb
-   
-    SPI0 -> BR |= SPI_BR_SPPR (0) ;     // predkosci transmisji 
-   
-    SPI0 -> BR |= SPI_BR_SPR (6) ;    
-   
-    SPI0 -> C2 |= SPI_C2_MODFEN_MASK ;         // slave select									//
-   
-    SPI0 -> C1 |= SPI_C1_SSOE_MASK ;       // is gpio
+		SPI0->C1 |= SPI_C1_CPHA_MASK;
+		SPI0->C1 &= (~SPI_C1_CPHA_MASK);		
+		SPI0->C1 |= SPI_C1_CPOL_MASK;
+		SPI0->C1 &= (~SPI_C1_CPOL_MASK);		
+		SPI0->C1 &= (~SPI_C1_LSBFE_MASK);
 		
-		SPI0 -> C1 |= SPI_C1_CPHA_MASK ; 
-		
-	  SPI0 -> C1 |= SPI_C1_SPE_MASK ;					//wlacz SPI
+		SPI0->C1 |= SPI_C1_SPE_MASK;
 }
 
-void sendData (int8_t data)
+void sendData (char data)
 {
 	while(!(SPI0->S & SPI_S_SPTEF_MASK));
 	SPI0->D = data;
@@ -61,13 +42,10 @@ void sendData (int8_t data)
 
 int main (void)
 {
-	//ledsInit();
-	spiInit();
+	SPIInit();
 
 	while (1)
 	{
-		//BlinkLED();
-		sendData(23);
-		
+		sendData(3);
 	}
 }
