@@ -431,7 +431,7 @@
       </component>
     </components>
     <files>
-      <file attr="config" category="source" condition="Compiler ARMCC" name="Device\Source\ARM\startup_MKL05Z4.s" version="1.0.0">
+      <file attr="config" category="source" condition="KL05Z4" name="Device\Source\ARM\startup_MKL05Z4.s" version="1.0.0">
         <instance index="0">RTE\Device\MKL05Z32xxx4\startup_MKL05Z4.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="MKL05Z4 CMSIS"/>
         <package name="Kinetis_KLxx_DFP" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.15.0"/>
@@ -439,7 +439,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" name="Device\Source\system_MKL05Z4.c" version="1.0.0">
+      <file attr="config" category="source" condition="KL05Z4" name="Device\Source\system_MKL05Z4.c" version="1.0.0">
         <instance index="0">RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="MKL05Z4 CMSIS"/>
         <package name="Kinetis_KLxx_DFP" schemaVersion="1.4.9" url="http://www.keil.com/pack/" vendor="Keil" version="1.15.0"/>

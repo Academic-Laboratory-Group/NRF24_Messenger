@@ -27,10 +27,10 @@ void uart0Init(uint32_t naud_rate)
 	UART0->C2 = UART0_C2_TE_MASK | UART0_C2_RE_MASK;
 }
 
-void UART0_Transmit(char data)
+void UART0_Transmit(char * data)
 {
 	while (!(UART0->S1 & UART0_S1_TDRE_MASK));
-	UART0->D = data;
+	UART0->D = *data;
 }
 
 uint8_t UART0_Receive(void)
