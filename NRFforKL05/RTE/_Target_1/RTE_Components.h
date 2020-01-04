@@ -3,8 +3,8 @@
  * Auto generated Run-Time-Environment Configuration File
  *      *** Do not modify ! ***
  *
- * Project: 'SPImessenger' 
- * Target:  'CMSIS-DAP' 
+ * Project: 'NRF24_Messenger' 
+ * Target:  'Target 1' 
  */
 
 #ifndef RTE_COMPONENTS_H
