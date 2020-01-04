@@ -14,8 +14,8 @@ int main (void)
 	ledsInit();
 	uart0Init(9600);
 	
-	uint8_t data = 0;
-	uint8_t c = 0;
+	char data = 0;
+	char c = 0;
 	
 	for (c = 'a'; c <= 'g'; c++)
 	{

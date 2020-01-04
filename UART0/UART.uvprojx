@@ -446,7 +446,7 @@
       </component>
     </components>
     <files>
-      <file attr="config" category="source" condition="KL05Z4" name="Device\Source\ARM\startup_MKL05Z4.s">
+      <file attr="config" category="source" condition="KL05Z4" name="Device\Source\ARM\startup_MKL05Z4.s" version="1.0.0">
         <instance index="0">RTE\Device\MKL05Z32xxx4\startup_MKL05Z4.s</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="Kinetis KLxx CMSIS Device"/>
         <package name="Kinetis_KLxx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.3.0"/>
@@ -454,7 +454,7 @@
           <targetInfo name="CMSIS-DAP"/>
         </targetInfos>
       </file>
-      <file attr="config" category="source" condition="KL05Z4" name="Device\Source\system_MKL05Z4.c">
+      <file attr="config" category="source" condition="KL05Z4" name="Device\Source\system_MKL05Z4.c" version="1.0.0">
         <instance index="0">RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c</instance>
         <component Cclass="Device" Cgroup="Startup" Cvendor="Keil" Cversion="1.0.0" condition="Kinetis KLxx CMSIS Device"/>
         <package name="Kinetis_KLxx_DFP" schemaVersion="1.2" url="http://www.keil.com/pack/" vendor="Keil" version="1.3.0"/>
