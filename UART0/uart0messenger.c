@@ -1,11 +1,11 @@
 #include "uart0messenger.h"
 #include "MKL05Z4.h"
 
-char * received_data;
+char * received_uart_data;
 
 void ASCII_Encoder(uint8_t received)
 {
-	*received_data = (char)((uint32_t)received);
+	*received_uart_data = (char)((uint32_t)received);
 }
 
 void UART0_Init(uint32_t naud_rate)
@@ -44,9 +44,9 @@ uint8_t UART0_Receive(char * data)
 {
 	while (!(UART0->S1 & UART0_S1_RDRF_MASK));
 	ASCII_Encoder(UART0->D);
-	if (*received_data != *data)
+	if (*received_uart_data != *data)
 	{
-		*data = *received_data;
+		*data = *received_uart_data;
 		return 1;
 	}
 	return 0;

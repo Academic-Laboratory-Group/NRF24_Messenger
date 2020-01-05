@@ -4,16 +4,14 @@
 
 char * MISO;
 char * MOSI;
-	
-enum STATES STATE;
 
-void messengerInit(void)
+void messenger_Init(void)
 {
 	UART0_Init(9600);
 	SPI_Init();
 }
 
-uint8_t messengerUpdate(void)
+void messenger_Update(void)
 {
 	// Check activity on UART side
 	if (UART0_Receive(MISO))
@@ -27,6 +25,4 @@ uint8_t messengerUpdate(void)
 	{
 		UART0_Transmit(MOSI);
 	}
-
-	return 1;
 }

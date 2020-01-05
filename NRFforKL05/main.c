@@ -6,7 +6,11 @@ int main(void)
 	messenger_Init();
 	
 	//LOOP
-	while(messenger_Update());
+	while(1)
+	{
+		messenger_Update();
+	}
+		
 	
 	//EXIT
 	return 0;
