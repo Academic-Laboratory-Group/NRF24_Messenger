@@ -3,10 +3,11 @@
 
 int main (void)
 {
-	SPIInit();
-
+	SPI_Init();
+	char * data = "TEST";
+	
 	while (1)
 	{
-		SPI_Transmit(3);
+		SPI_Transmit(data);
 	}
 }

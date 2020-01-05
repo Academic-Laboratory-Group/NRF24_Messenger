@@ -11,7 +11,6 @@ int main(void)
 		messenger_Update();
 	}
 		
-	
 	//EXIT
 	return 0;
 }

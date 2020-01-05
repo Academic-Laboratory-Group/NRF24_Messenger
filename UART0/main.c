@@ -1,7 +1,7 @@
 #include "MKL05Z4.h"
 #include "uart0messenger.h"
 
-void ledsInit(void)
+void leds_Init(void)
 {
 	SIM->SCGC5 |=  (SIM_SCGC5_PORTB_MASK);      
   PORTB->PCR[9] = PORT_PCR_MUX(1UL);                       
@@ -11,24 +11,20 @@ void ledsInit(void)
 
 int main (void)
 {
-	ledsInit();
-	uart0Init(9600);
+	leds_Init();
+	UART0_Init(9600);
 	
-	char data = 0;
-	char c = 0;
+	char * send = "TEST";
+	char * receive = "";
 	
-	for (c = 'a'; c <= 'g'; c++)
-	{
-		UART0_Transmit(c);
-	}
+	UART0_Transmit(send);
 
 	while (1)
 	{
-
-		data = UART0_Receive();
+		UART0_Receive(receive);
 		
-		if (data == 50) PTB->PTOR |= 1UL << 9; // green // kod ASCII
+		if (receive == send) PTB->PTOR |= 1UL << 9; // green // kod ASCII
 		
-		UART0_Transmit(data);
+		UART0_Transmit(send);
 	}
 }
