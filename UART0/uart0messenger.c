@@ -34,20 +34,14 @@ void UART0_Init(uint32_t naud_rate)
 	UART0->C2 = UART0_C2_TE_MASK | UART0_C2_RE_MASK;
 }
 
-void UART0_Transmit(char * data)
+void UART0_Transmit(char data)
 {
 	while (!(UART0->S1 & UART0_S1_TDRE_MASK));
-	UART0->D = *data;
+	UART0->D = data;
 }
 
-uint8_t UART0_Receive(char * data)
+char UART0_Receive(void)
 {
 	while (!(UART0->S1 & UART0_S1_RDRF_MASK));
-	ASCII_Encoder(UART0->D);
-	if (*received_uart_data != *data)
-	{
-		*data = *received_uart_data;
-		return 1;
-	}
-	return 0;
+	return UART0->D;
 }

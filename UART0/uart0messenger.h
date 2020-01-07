@@ -4,7 +4,7 @@
 #include "MKL05Z4.h"
 
 void UART0_Init(uint32_t naud_rate);
-void UART0_Transmit(char * data);
-uint8_t UART0_Receive(char * data);
+void UART0_Transmit(char data);
+char UART0_Receive(void);
 
 #endif

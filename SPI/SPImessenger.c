@@ -38,18 +38,13 @@ void SPI_Init ( void )
 	SPI0->C1 |= SPI_C1_SPE_MASK;			//wlacz System SPI
 }
 
-void SPI_Transmit (char * data)
+void SPI_Transmit(char data)
 {
 	while(!(SPI0->S & SPI_S_SPTEF_MASK));
-	SPI0->D = *data;
+	SPI0->D = data;
 }
 
-uint8_t SPI_Receive(char * data)
+char SPI_Receive(void)
 {
-	if (*received_data != *data)
-	{
-		*data = *received_data;
-		return 1;
-	}
-	return 0;
+	return SPI0->D;
 }

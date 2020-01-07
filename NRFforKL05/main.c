@@ -12,5 +12,5 @@ int main(void)
 	}
 		
 	//EXIT
-	return 0;
+
 }
