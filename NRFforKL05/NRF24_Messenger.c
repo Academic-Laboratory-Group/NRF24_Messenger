@@ -14,15 +14,15 @@ void messenger_Init(void)
 void messenger_Update(void)
 {
 	// Check activity on UART side
-	if (UART0_Receive(MISO))
+	if (UART0_Receive(MOSI))
 	{
-		SPI_Transmit(MISO);
+		SPI_Transmit(MOSI);
 	}
 	 
 	// Check activity on SPI side 
 	// (if UART has nothing to do)
-	else if (SPI_Receive(MOSI))
+	else if (SPI_Receive(MISO))
 	{
-		UART0_Transmit(MOSI);
+		UART0_Transmit(MISO);
 	}
 }

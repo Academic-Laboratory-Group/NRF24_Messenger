@@ -1,44 +1,43 @@
 Dependencies for Project 'NRF24_Messenger', Target 'Target 1': (DO NOT MODIFY !)
-CompilerVersion: 5060750::V5.06 update 6 (build 750)::ARMCC
-F (..\UART0\uart0messenger.c)(0x5E11D976)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DMKL05Z32xxx4-o .\objects\uart0messenger.o --omf_browse .\objects\uart0messenger.crf --depend .\objects\uart0messenger.d)
-I (..\UART0\uart0messenger.h)(0x5E10C53C)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
-I (D:\Programs\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
-F (.\main.c)(0x5E11D976)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DMKL05Z32xxx4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (NRF24_Messenger.h)(0x5E11D976)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
-I (D:\Programs\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
-F (.\NRF24_Messenger.c)(0x5E11D976)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DMKL05Z32xxx4-o .\objects\nrf24_messenger.o --omf_browse .\objects\nrf24_messenger.crf --depend .\objects\nrf24_messenger.d)
-I (NRF24_Messenger.h)(0x5E11D976)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
-I (D:\Programs\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
-I (../UART0/uart0messenger.h)(0x5E10C53C)
-I (../SPI/SPImessenger.h)(0x5E10C66E)
-F (..\SPI\SPImessenger.c)(0x5E10C66D)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DMKL05Z32xxx4-o .\objects\spimessenger.o --omf_browse .\objects\spimessenger.crf --depend .\objects\spimessenger.d)
-I (..\SPI\SPImessenger.h)(0x5E10C66E)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
-I (D:\Programs\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
-F (RTE\Device\MKL05Z32xxx4\startup_MKL05Z4.s)(0x51C02128)(--cpu Cortex-M0+ --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-ID:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include--pd "__UVISION_VERSION SETA 529" --pd "_RTE_ SETA 1" --pd "MKL05Z32xxx4 SETA 1"--list .\listings\startup_mkl05z4.lst --xref -o .\objects\startup_mkl05z4.o --depend .\objects\startup_mkl05z4.d)
-F (RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c)(0x51C02128)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="529" -D_RTE_ -DMKL05Z32xxx4-o .\objects\system_mkl05z4.o --omf_browse .\objects\system_mkl05z4.crf --depend .\objects\system_mkl05z4.d)
-I (D:\Programs\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
-I (D:\Programs\Keil\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
-I (D:\Programs\Keil\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
+F (..\UART0\uart0messenger.c)(0x5E11F397)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\uart0messenger.o --omf_browse .\objects\uart0messenger.crf --depend .\objects\uart0messenger.d)
+I (..\UART0\uart0messenger.h)(0x5E11F397)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
+I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
+F (.\main.c)(0x5E11F397)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (NRF24_Messenger.h)(0x5E11F397)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
+I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
+F (.\NRF24_Messenger.c)(0x5E11F959)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\nrf24_messenger.o --omf_browse .\objects\nrf24_messenger.crf --depend .\objects\nrf24_messenger.d)
+I (NRF24_Messenger.h)(0x5E11F397)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
+I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
+I (../UART0/uart0messenger.h)(0x5E11F397)
+I (../SPI/SPImessenger.h)(0x5E11F397)
+F (..\SPI\SPImessenger.c)(0x5E11F397)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\spimessenger.o --omf_browse .\objects\spimessenger.crf --depend .\objects\spimessenger.d)
+I (..\SPI\SPImessenger.h)(0x5E11F397)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
+I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
+F (RTE\Device\MKL05Z32xxx4\startup_MKL05Z4.s)(0x5E11F397)(--cpu Cortex-M0+ --pd "__EVAL SETA 1" -g --apcs=interwork -I.\RTE\_Target_1-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include--pd "__UVISION_VERSION SETA 526" --pd "_RTE_ SETA 1" --pd "MKL05Z32xxx4 SETA 1"--list .\listings\startup_mkl05z4.lst --xref -o .\objects\startup_mkl05z4.o --depend .\objects\startup_mkl05z4.d)
+F (RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c)(0x5E11F397)(--c99 --gnu -c --cpu Cortex-M0+ -D__EVAL -g -O0 --apcs=interwork --split_sections-I.\RTE\_Target_1-ID:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-ID:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="526" -D_RTE_ -DMKL05Z32xxx4-o .\objects\system_mkl05z4.o --omf_browse .\objects\system_mkl05z4.crf --depend .\objects\system_mkl05z4.d)
+I (D:\Programy\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3488)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\MKL05Z4.h)(0x51C02128)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm0plus.h)(0x5368ED1C)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x53030540)
+I (D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include\system_MKL05Z4.h)(0x51C02128)
