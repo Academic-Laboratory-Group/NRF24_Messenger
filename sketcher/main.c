@@ -421,8 +421,250 @@ void RF24Init(void)
 		UART0_Transmit_word("Radio is configured\n\r");
 	}
 }
+/*
+void startListening(void)
+{
+  powerUp();
+ 
+  write_register(NRF_CONFIG, read_register(NRF_CONFIG) | _BV(PRIM_RX));
+  write_register(NRF_STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
+  beginTransaction();
+  // Restore the pipe0 adddress, if exists
+  if (pipe0_reading_address[0] > 0){
+    write_register(RX_ADDR_P0, pipe0_reading_address, addr_width);	
+  }else{
+	closeReadingPipe(0);
+  }
+
+  // Flush buffers
+  //flush_rx();
+  if(read_register(FEATURE) & _BV(EN_ACK_PAY)){
+	flush_tx();
+  }
+
+  // Go!
+  //delayMicroseconds(100);
+}
+
+static const uint8_t child_pipe_enable[] PROGMEM =
+{
+  ERX_P0, ERX_P1, ERX_P2, ERX_P3, ERX_P4, ERX_P5
+};
+
+void stopListening(void)
+{  
+  ce(LOW);
+
+  delayMicroseconds(txDelay);
+  
+  if(read_register(FEATURE) & _BV(EN_ACK_PAY)){
+    delayMicroseconds(txDelay); //200
+	flush_tx();
+  }
+  //flush_rx();
+  write_register(NRF_CONFIG, ( read_register(NRF_CONFIG) ) & ~_BV(PRIM_RX) );
+ 
+  #if defined (RF24_TINY) || defined (LITTLEWIRE)
+  // for 3 pins solution TX mode is only left with additonal powerDown/powerUp cycle
+  if (ce_pin == csn_pin) {
+    powerDown();
+	powerUp();
+  }
+  #endif
+  write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[0]))); // Enable RX on pipe0
+  
+  //delayMicroseconds(100);
+
+}
 
 
+void reUseTX(){
+		write_register(NRF_STATUS,_BV(MAX_RT) );			  //Clear max retry flag
+		spiTrans( REUSE_TX_PL );
+		ce(LOW);										  //Re-Transfer packet
+		ce(HIGH);
+}
+
+bool RF24::rxFifoFull(){
+	return read_register(FIFO_STATUS) & _BV(RX_FULL);
+}
+
+bool RF24::txStandBy(){
+
+    #if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
+		uint32_t timeout = millis();
+	#endif
+	while( ! (read_register(FIFO_STATUS) & _BV(TX_EMPTY)) ){
+		if( get_status() & _BV(MAX_RT)){
+			write_register(NRF_STATUS,_BV(MAX_RT) );
+			ce(LOW);
+			flush_tx();    //Non blocking, flush the data
+			return 0;
+		}
+		#if defined (FAILURE_HANDLING) || defined (RF24_LINUX)
+			if( millis() - timeout > 95){
+				errNotify();
+				#if defined (FAILURE_HANDLING)
+				return 0;	
+				#endif
+			}
+		#endif
+	}
+
+	ce(LOW);			   //Set STANDBY-I mode
+	return 1;
+}
+
+void RF24::read( void* buf, uint8_t len ){
+
+  // Fetch the payload
+  read_payload( buf, len );
+
+  //Clear the two possible interrupt flags with one command
+  write_register(NRF_STATUS,_BV(RX_DR) | _BV(MAX_RT) | _BV(TX_DS) );
+
+}
+
+uint8_t RF24::read_payload(void* buf, uint8_t data_len)
+{
+  uint8_t status;
+  uint8_t* current = reinterpret_cast<uint8_t*>(buf);
+
+  if(data_len > payload_size) data_len = payload_size;
+  uint8_t blank_len = dynamic_payloads_enabled ? 0 : payload_size - data_len;
+  
+  //printf("[Reading %u bytes %u blanks]",data_len,blank_len);
+
+  IF_SERIAL_DEBUG( printf("[Reading %u bytes %u blanks]\n",data_len,blank_len); );
+  
+  #if defined (RF24_LINUX)
+	beginTransaction();
+	uint8_t * prx = spi_rxbuff;
+	uint8_t * ptx = spi_txbuff;
+    uint8_t size;
+    size = data_len + blank_len + 1; // Add register value to transmit buffer
+
+	*ptx++ =  R_RX_PAYLOAD;
+	while(--size) 
+		*ptx++ = RF24_NOP;
+		
+	size = data_len + blank_len + 1; // Size has been lost during while, re affect
+	
+	_SPI.transfernb( (char *) spi_txbuff, (char *) spi_rxbuff, size);
+	
+	status = *prx++; // 1st byte is status	
+    
+    if (data_len > 0) {
+      while ( --data_len ) // Decrement before to skip 1st status byte
+          *current++ = *prx++;
+		
+      *current = *prx;
+    }
+	endTransaction();
+  #else
+
+  beginTransaction();
+  status = _SPI.transfer( R_RX_PAYLOAD );
+  while ( data_len-- ) {
+    *current++ = _SPI.transfer(0xFF);
+  }
+  while ( blank_len-- ) {
+    _SPI.transfer(0xff);
+  }
+  endTransaction();
+
+  #endif
+
+  return status;
+}
+
+void RF24::openWritingPipe(uint64_t value)
+{
+  // Note that AVR 8-bit uC's store this LSB first, and the NRF24L01(+)
+  // expects it LSB first too, so we're good.
+
+  write_register(RX_ADDR_P0, reinterpret_cast<uint8_t*>(&value), addr_width);
+  write_register(TX_ADDR, reinterpret_cast<uint8_t*>(&value), addr_width);
+  
+  
+  //const uint8_t max_payload_size = 32;
+  //write_register(RX_PW_P0,rf24_min(payload_size,max_payload_size));
+  write_register(RX_PW_P0,payload_size);
+}
+
+void RF24::openWritingPipe(const uint8_t *address)
+{
+  // Note that AVR 8-bit uC's store this LSB first, and the NRF24L01(+)
+  // expects it LSB first too, so we're good.
+
+  write_register(RX_ADDR_P0,address, addr_width);
+  write_register(TX_ADDR, address, addr_width);
+
+  //const uint8_t max_payload_size = 32;
+  //write_register(RX_PW_P0,rf24_min(payload_size,max_payload_size));
+  write_register(RX_PW_P0,payload_size);
+}
+
+
+void RF24::openReadingPipe(uint8_t child, uint64_t address)
+{
+  // If this is pipe 0, cache the address.  This is needed because
+  // openWritingPipe() will overwrite the pipe 0 address, so
+  // startListening() will have to restore it.
+  if (child == 0){
+    memcpy(pipe0_reading_address,&address,addr_width);
+  }
+
+  if (child <= 6)
+  {
+    // For pipes 2-5, only write the LSB
+    if ( child < 2 )
+      write_register(pgm_read_byte(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), addr_width);
+    else
+      write_register(pgm_read_byte(&child_pipe[child]), reinterpret_cast<const uint8_t*>(&address), 1);
+
+    write_register(pgm_read_byte(&child_payload_size[child]),payload_size);
+
+    // Note it would be more efficient to set all of the bits for all open
+    // pipes at once.  However, I thought it would make the calling code
+    // more simple to do it this way.
+    write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+  }
+}
+
+void RF24::openReadingPipe(uint8_t child, const uint8_t *address)
+{
+  // If this is pipe 0, cache the address.  This is needed because
+  // openWritingPipe() will overwrite the pipe 0 address, so
+  // startListening() will have to restore it.
+  if (child == 0){
+    memcpy(pipe0_reading_address,address,addr_width);
+  }
+  if (child <= 6)
+  {
+    // For pipes 2-5, only write the LSB
+    if ( child < 2 ){
+      write_register(pgm_read_byte(&child_pipe[child]), address, addr_width);
+    }else{
+      write_register(pgm_read_byte(&child_pipe[child]), address, 1);
+	}
+    write_register(pgm_read_byte(&child_payload_size[child]),payload_size);
+
+    // Note it would be more efficient to set all of the bits for all open
+    // pipes at once.  However, I thought it would make the calling code
+    // more simple to do it this way.
+    write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(pgm_read_byte(&child_pipe_enable[child])));
+
+  }
+}
+
+
+void RF24::closeReadingPipe( uint8_t pipe )
+{
+  write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(pgm_read_byte(&child_pipe_enable[pipe])));
+}
+
+*/
 int main (void)
 {
 	char c = 0;
