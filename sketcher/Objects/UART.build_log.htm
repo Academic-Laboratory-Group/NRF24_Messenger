@@ -21,22 +21,33 @@ Target DLL:      PEMicro\Pemicro_ArmCortexInterface.dll V1.11
 Dialog DLL:      TARMCM1.DLL V1.14.0.0
  
 <h2>Project:</h2>
-D:\STUDIA\3_ROK\Laboratorium\SMP\Messenger\UART\UART.uvprojx
+D:\STUDIA\3_ROK\Laboratorium\SMP\Messenger\NRF24_Messenger\sketcher\UART.uvprojx
 Project File Date:  01/16/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programy\Keil\ARM\ARMCC\Bin'
 Rebuild target 'CMSIS-DAP'
 assembling startup_MKL05Z4.s...
+compiling uart0messenger.c...
 compiling system_MKL05Z4.c...
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c(113): warning:  #2532-D: support for trigraphs is disabled
     /* SIM->CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c: 1 warning, 0 errors
-compiling uart0messenger.c...
 compiling main.c...
+main.c(275): warning:  #177-D: variable "data"  was declared but never referenced
+  	char data;
+main.c(298): warning:  #177-D: variable "status"  was declared but never referenced
+  	uint8_t status;
+main.c(302): warning:  #177-D: variable "blank_len"  was declared but never referenced
+     uint8_t blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
+main.c(412): warning:  #177-D: variable "data"  was declared but never referenced
+  	char data = 0;
+main.c(500): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "const uint8_t *"
+  		write(&text, sizeof(text));
+main.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=1308 RO-data=208 RW-data=0 ZI-data=352  
-".\Objects\UART.axf" - 0 Error(s), 1 Warning(s).
+Program Size: Code=2076 RO-data=224 RW-data=8 ZI-data=352  
+".\Objects\UART.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -65,7 +76,7 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device\Source\ARM\startup_MKL05Z4.s
       Source file:   Device\Source\system_MKL05Z4.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
