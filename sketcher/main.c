@@ -7,6 +7,8 @@
 #define rf24_max(a,b) (a>b?a:b)
 #define rf24_min(a,b) (a<b?a:b)
 
+
+					
 uint8_t  dynamic_payloads_enabled = 0;
 uint8_t pipe0_reading_address[5] ;
 	
@@ -214,7 +216,6 @@ void isChipConnected(void)
 	{
 		UART0_Transmit_word("ChipisConnected\n\r");
 	}
-
 }
 
 void available(void)
@@ -223,7 +224,6 @@ void available(void)
 	{
 		UART0_Transmit_word("ChipisAvailable\n\r");
 	}
-
 }
 
 void getDataRate( void )
@@ -272,25 +272,17 @@ void openWritingPipe(const uint8_t* address)
 
 void stopListening(void)
 {
-	char data;
-		//ce low
-	PTA -> PSOR |= 1UL << 5;
 	delay();
-
-	//if (read_register(FEATURE) & _BV(EN_ACK_PAY)) 
-	//{
-	//	delay(); //200
-	//	flush_tx();
-	//}
-		
+	
 	write_register(NRF_CONFIG, read_register(NRF_CONFIG) & ~_BV(PRIM_RX));
 	delay();
 	
 	write_register(EN_RXADDR, read_register(EN_RXADDR) | _BV(ERX_P0)); // Enable RX on pipe0
 	delay();
-	
-	PTA -> PSOR |= 1UL << 5;
+
+	delay1();
 	delay();
+
 }
 
 void write_payload(const uint8_t* buf, uint8_t data_len, const uint8_t writeType)
@@ -309,18 +301,39 @@ void write_payload(const uint8_t* buf, uint8_t data_len, const uint8_t writeType
 		delay1();
 	}
 	endTransaction();
+	
+
 }
 
 void startFastWrite(const uint8_t* buf, uint8_t len) 
 { 
 	write_payload( buf, len, 0 ? W_TX_PAYLOAD_NO_ACK : W_TX_PAYLOAD);
+	//ce high
+	PTA -> PSOR |= 1UL << 5;
+	delay1();
+	delay11();
+	//ce low
+	PTA->PCOR |= 1UL << 5;
 }
 
 void write(const uint8_t* buf, uint8_t len)
 {
-	//Start Writing
+	uint8_t status;
+	
 	startFastWrite(buf, len);
 	delay();
+	
+	write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
+	delay();
+	
+	status = read_register(NRF_STATUS);
+	delay();
+	
+  //Max retries exceeded
+  if( status & _BV(MAX_RT))
+	{
+  	flush_tx(); //Only going to be 1 packet int the FIFO at a time using this method, so just flush
+  }
 }
 
 void openReadingPipe(const uint8_t *address)
@@ -353,11 +366,7 @@ void startListening(void)
   write_register(NRF_CONFIG, read_register(NRF_CONFIG) | _BV(PRIM_RX));
 	delay();
 	
-  write_register(NRF_STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
-  delay();
-	
-	//ce high
-	PTA -> PSOR |= 1UL << 5;
+	write_register(NRF_STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	delay();
 	
 	if (pipe0_reading_address[0] > 0)
@@ -368,22 +377,26 @@ void startListening(void)
 	{
 	closeReadingPipe(0);
   }
+
 }
 
-void read_payload(uint8_t* buf, uint8_t data_len)
+void read_payload( void* buf, uint8_t data_len)
 {
-	uint8_t* current = buf;
+	 uint8_t* current = buf;
 	
   if(data_len > 32) data_len = 32;
   char blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
   
 	beginTransaction();
   SPI_Transmit( R_RX_PAYLOAD );
-	delay();
   while ( data_len-- ) 
 	{
+		SPI_Transmit(0xFF);
+		SPI_Receive();
+		SPI_Receive();
+		delay();
+		delay1();
 		*current++ = SPI_Receive();
-		delay11();
   }
   while ( blank_len-- ) {
     SPI_Transmit(0xff);
@@ -394,13 +407,18 @@ void read_payload(uint8_t* buf, uint8_t data_len)
 
 void read( void* buf, uint8_t len )
 {
-
-  // Fetch the payload
+		//ce high
+	PTA -> PCOR |= 1UL << 5;
   read_payload( buf, len );
 	delay();
-  //Clear the two possible interrupt flags with one command
-  write_register(NRF_STATUS,_BV(RX_DR) | _BV(MAX_RT) | _BV(TX_DS) );
+	
+	write_register(NRF_STATUS,_BV(RX_DR) | _BV(MAX_RT) | _BV(TX_DS) );
 	delay();
+	flush_rx();
+	//flush_tx();
+	
+		//ce high
+	PTA -> PSOR |= 1UL << 5;
 }
 
 void RF24Init(void)
@@ -439,7 +457,7 @@ void RF24Init(void)
 	write_register(DYNPD,0);
 	delay();
 	
-	write_register(NRF_STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT));
+	write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	delay();
 	
 	setChannel(76);
@@ -453,10 +471,10 @@ void RF24Init(void)
 
 	powerUp(); 
 	delay();
-
-	write_register(NRF_CONFIG, (read_register(NRF_CONFIG)) & ~_BV(PRIM_RX));
+	
+  write_register(NRF_CONFIG, ( read_register(NRF_CONFIG) ) & ~_BV(PRIM_RX) );
 	delay();
-
+	
 	if ( setup != 0 && setup != 0xff )
 	{
 		//UART0_Transmit_word("Radio is configured\n\r");
@@ -471,40 +489,44 @@ int main (void)
 	UART0_Transmit_word("NRF24L01\n\r");
 	
 	RF24Init();
-
+	delay();
+	//read_register(FIFO_STATUS);
 	//delay2();
 	//available();
 	//delay2();
 	//getDataRate();
+	//delay();
 	//isChipConnected();
 	
 /////// nadajnik//////////
-	const uint8_t rxAddr[6] = "00010";
-	openWritingPipe(rxAddr);
-	stopListening();
-	powerUp();
+	//const uint8_t rxAddr[5] = "00010";
+	//openWritingPipe(rxAddr);
+	//delay();
+	//stopListening();
+	//delay();
 /////////////////
 	
 	
 ////////odbiornik////////
-	//const uint8_t rxAddr[6] = "00010";
-  //openReadingPipe(rxAddr);
-	//startListening();
-	//powerUp();
+	const uint8_t rxAddr[5] = "00010";
+	openReadingPipe(rxAddr);
+	delay();
+	startListening();
+	delay();
 /////////////
-	
+	//available();
 	while (1)
 	{
 //////// nadajnik//////////
-		char text = 2;
-		write(&text, sizeof(text));
-		delay2();
-		
+		//char text = 2;
+		//write(&text, sizeof(text));
+		//delay2();
+
 		
 /////////odbiornik//////////
-		//char text = 0 ;
-		//read(&text, sizeof(text));
-		//UART0_Transmit(text);
-		//delay2();
+		char text = 0;
+		read(&text, sizeof(text));
+		UART0_Transmit(text+48);
+		delay2();
 	}
 }
