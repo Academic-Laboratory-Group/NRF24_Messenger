@@ -34,16 +34,14 @@ RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c(113): warning:  #2532-D: support for tr
     /* SIM->CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c: 1 warning, 0 errors
 compiling main.c...
-main.c(290): warning:  #177-D: variable "status"  was declared but never referenced
-  	uint8_t status;
-main.c(294): warning:  #177-D: variable "blank_len"  was declared but never referenced
+main.c(295): warning:  #177-D: variable "blank_len"  was declared but never referenced
      uint8_t blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
-main.c(430): warning:  #177-D: variable "data"  was declared but never referenced
-  	char data = 0;
-main.c: 3 warnings, 0 errors
+main.c(510): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "const uint8_t *"
+  		write(&text, sizeof(text));
+main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=2392 RO-data=224 RW-data=8 ZI-data=352  
-".\Objects\UART.axf" - 0 Error(s), 4 Warning(s).
+Program Size: Code=2132 RO-data=224 RW-data=8 ZI-data=352  
+".\Objects\UART.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 

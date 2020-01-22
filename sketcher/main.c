@@ -272,6 +272,12 @@ void openWritingPipe(const uint8_t* address)
 
 void stopListening(void)
 {
+	delay1();
+	delay1();
+	
+	delay1();
+	delay1();
+	flush_tx();
 	delay();
 	
 	write_register(NRF_CONFIG, read_register(NRF_CONFIG) & ~_BV(PRIM_RX));
@@ -279,15 +285,10 @@ void stopListening(void)
 	
 	write_register(EN_RXADDR, read_register(EN_RXADDR) | _BV(ERX_P0)); // Enable RX on pipe0
 	delay();
-
-	delay1();
-	delay();
-
 }
 
 void write_payload(const uint8_t* buf, uint8_t data_len, const uint8_t writeType)
 {
-	uint8_t status;
   const uint8_t* current = (buf);
 
    data_len = rf24_min(data_len, 32);
@@ -311,14 +312,15 @@ void startFastWrite(const uint8_t* buf, uint8_t len)
 	//ce high
 	PTA -> PSOR |= 1UL << 5;
 	delay1();
-	delay11();
+	delay1();
 	//ce low
 	PTA->PCOR |= 1UL << 5;
 }
 
 void write(const uint8_t* buf, uint8_t len)
 {
-	uint8_t status;
+	flush_tx(); 
+	delay();
 	
 	startFastWrite(buf, len);
 	delay();
@@ -326,14 +328,8 @@ void write(const uint8_t* buf, uint8_t len)
 	write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	delay();
 	
-	status = read_register(NRF_STATUS);
-	delay();
-	
-  //Max retries exceeded
-  if( status & _BV(MAX_RT))
-	{
-  	flush_tx(); //Only going to be 1 packet int the FIFO at a time using this method, so just flush
-  }
+
+
 }
 
 void openReadingPipe(const uint8_t *address)
@@ -355,29 +351,24 @@ void openReadingPipe(const uint8_t *address)
 
 void closeReadingPipe( uint8_t pipe )
 {
-  write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(ERX_P0));
+  write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(ERX_P1));
 	delay();
 }
 
 void startListening(void)
 {
 	delay();
-	
+
   write_register(NRF_CONFIG, read_register(NRF_CONFIG) | _BV(PRIM_RX));
 	delay();
 	
 	write_register(NRF_STATUS, _BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	delay();
-	
-	if (pipe0_reading_address[0] > 0)
-	{
-    write_register2(RX_ADDR_P0, pipe0_reading_address, 5);	
-  }
-	else
-	{
-	closeReadingPipe(0);
-  }
 
+  write_register2(RX_ADDR_P0, pipe0_reading_address, 5);	
+	delay();
+	
+	flush_tx();
 }
 
 void read_payload( void* buf, uint8_t data_len)
@@ -407,15 +398,13 @@ void read_payload( void* buf, uint8_t data_len)
 
 void read( void* buf, uint8_t len )
 {
-		//ce high
+		//ce low
 	PTA -> PCOR |= 1UL << 5;
   read_payload( buf, len );
 	delay();
 	
 	write_register(NRF_STATUS,_BV(RX_DR) | _BV(MAX_RT) | _BV(TX_DS) );
 	delay();
-	flush_rx();
-	//flush_tx();
 	
 		//ce high
 	PTA -> PSOR |= 1UL << 5;
@@ -427,7 +416,6 @@ void RF24Init(void)
 	pipe0_reading_address[0]=0;
 	
 	uint16_t setup = 0;
-	char data = 0;
 		//ce
 	PTA -> PCOR |= 1UL << 5;
 	delay();
@@ -460,7 +448,7 @@ void RF24Init(void)
 	write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	delay();
 	
-	setChannel(76);
+	setChannel(105);
 	delay();
 
 	flush_rx();				//?????
@@ -486,6 +474,8 @@ int main (void)
 	uart0Init(9600);
 	SPI_Init();
 	
+	const uint8_t rxAddr[5] = "00010";
+	
 	UART0_Transmit_word("NRF24L01\n\r");
 	
 	RF24Init();
@@ -499,34 +489,32 @@ int main (void)
 	//isChipConnected();
 	
 /////// nadajnik//////////
-	//const uint8_t rxAddr[5] = "00010";
-	//openWritingPipe(rxAddr);
-	//delay();
-	//stopListening();
-	//delay();
+	openWritingPipe(rxAddr);
+	delay();
+	stopListening();
+	delay();
 /////////////////
 	
 	
 ////////odbiornik////////
-	const uint8_t rxAddr[5] = "00010";
-	openReadingPipe(rxAddr);
-	delay();
-	startListening();
-	delay();
+	//openReadingPipe(rxAddr);
+	//delay();
+	//startListening();
+	//delay();
 /////////////
-	//available();
+
 	while (1)
 	{
 //////// nadajnik//////////
-		//char text = 2;
-		//write(&text, sizeof(text));
-		//delay2();
+		char text = 2;
+		write(&text, sizeof(text));
+		delay2();
 
 		
 /////////odbiornik//////////
-		char text = 0;
-		read(&text, sizeof(text));
-		UART0_Transmit(text+48);
-		delay2();
+		//char text = 0;
+		//read(&text, sizeof(text));
+		//UART0_Transmit(text+48);
+		//delay2();
 	}
 }
