@@ -22,26 +22,30 @@ Dialog DLL:      TARMCM1.DLL V1.14.0.0
  
 <h2>Project:</h2>
 D:\STUDIA\3_ROK\Laboratorium\SMP\Messenger\NRF24_Messenger\sketcher\UART.uvprojx
-Project File Date:  01/16/2020
+Project File Date:  01/24/2020
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programy\Keil\ARM\ARMCC\Bin'
 Rebuild target 'CMSIS-DAP'
 assembling startup_MKL05Z4.s...
-compiling uart0messenger.c...
 compiling system_MKL05Z4.c...
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c(113): warning:  #2532-D: support for trigraphs is disabled
     /* SIM->CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c: 1 warning, 0 errors
+compiling uart0messenger.c...
 compiling main.c...
-main.c(295): warning:  #177-D: variable "blank_len"  was declared but never referenced
+main.c(166): warning:  #177-D: variable "max_channel"  was declared but never referenced
+  	const uint8_t max_channel = 125;
+main.c(292): warning:  #177-D: variable "blank_len"  was declared but never referenced
      uint8_t blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
-main.c(510): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "const uint8_t *"
-  		write(&text, sizeof(text));
-main.c: 2 warnings, 0 errors
+main.c(389): warning:  #177-D: variable "len"  was declared but never referenced
+    uint8_t len = 32;
+main.c(539): warning:  #177-D: variable "text"  was declared but never referenced
+  		char text = 2;
+main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=2132 RO-data=224 RW-data=8 ZI-data=352  
-".\Objects\UART.axf" - 0 Error(s), 3 Warning(s).
+Program Size: Code=1928 RO-data=232 RW-data=8 ZI-data=352  
+".\Objects\UART.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -70,7 +74,7 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device\Source\ARM\startup_MKL05Z4.s
       Source file:   Device\Source\system_MKL05Z4.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
