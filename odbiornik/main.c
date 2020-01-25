@@ -8,10 +8,27 @@
 #define rf24_min(a,b) (a<b?a:b)
 
 const uint8_t rxAddr[] = "00010";
-					
+char text = 0;
+			
 uint8_t  dynamic_payloads_enabled = 0;
 uint8_t pipe0_reading_address[5] ;
 	
+void delay_mc(uint32_t value){
+	uint32_t delay, x;
+	
+	for(x=0; x < value; x++){
+		for(delay=0; delay < 10000; delay++){};
+	}
+}
+
+void delay_uc(uint32_t value){
+	uint32_t delay, x;
+	
+	for(x=0; x < value; x++){
+		for(delay=0; delay < 9; delay++){};
+	}
+}
+
 void delay(void)
 {
 	int i = 0;
@@ -108,6 +125,16 @@ void beginTransaction(void) {
 void endTransaction(void) {
 	//csn
 	PTB->PSOR |= 1UL << 11;
+}
+
+void CE_LOW(void) {
+	//ce
+	PTA->PCOR |= 1UL << 5;
+}
+
+void CE_HIGH(void) {
+	//ce
+	PTA->PSOR |= 1UL << 5;
 }
 
 void write_register(uint8_t reg, char value)
@@ -366,7 +393,7 @@ void closeReadingPipe( uint8_t pipe )
 
 void startListening(void)
 {
-	delay();
+	//delay();
 	write_register(NRF_CONFIG, 0x1E);
   //write_register(NRF_CONFIG, read_register(NRF_CONFIG) | _BV(PRIM_RX));
 	//delay();
@@ -376,7 +403,7 @@ void startListening(void)
 
   //write_register2(RX_ADDR_P0, pipe0_reading_address, 5);	
 	//delay();
-	PTA->PSOR |= 1UL << 5;
+	//PTA->PSOR |= 1UL << 5;
 	//flush_tx();
 }
 
@@ -406,12 +433,10 @@ void read_payload( void* buf, uint8_t data_len)
   endTransaction();
 }
 
+
 void read( void* buf, uint8_t len )
 {
   read_payload( buf, len );
-	delay();
-	
-	write_register(NRF_STATUS,0x50);
 	delay();
 }
 
@@ -430,9 +455,6 @@ void RF24Init(void)
 	delay();
 	
 	write_register(NRF_CONFIG, 0x0C);			//1
-	delay();
-	
-	write_register(EN_AA,1); // enable auto ack 
 	delay();
 	
 	//setRetries(15, 15);						//1
@@ -501,6 +523,8 @@ void RF24Init(void)
 
 int main (void)
 {
+	char full = 0;
+	
 	uart0Init(9600);
 	SPI_Init();
 	
@@ -509,8 +533,8 @@ int main (void)
 	UART0_Transmit_word("NRF24L01\n\r");
 	
 	RF24Init();
-	//();
-	//read_register(FIFO_STATUS);
+	delay_mc(5);
+
 	//delay2();
 	//available();
 	//delay2();
@@ -518,33 +542,30 @@ int main (void)
 	//delay();
 	//isChipConnected();
 	
-/////// nadajnik//////////
-	////////////////////////////////////////openWritingPipe(rxAddr);
-	delay();
-	stopListening();
-	delay();
-/////////////////
 
-	
 ////////odbiornik////////
 	///////////////////////////////////////openReadingPipe(rxAddr);
-	//delay();
-	//startListening();
-	//delay();
+	flush_rx();
+	delay();
+	startListening();
+	delay();
+	CE_HIGH();
+	delay1();
+	delay1();
 /////////////
 
 	while (1)
 	{
-//////// nadajnik//////////
-		char text = 2;
-		write(2, 32);
-		delay2();
-
-		
 /////////odbiornik//////////
-		//char text = 0;
-		//read(&text, sizeof(text));
-		//UART0_Transmit(text+48);
-		//delay2();
+		CE_LOW();
+		delay11();
+		char text = 0;
+		read(&text, sizeof(text));
+		UART0_Transmit(text+48);
+		delay2();
+		CE_HIGH();
+		delay1();
+		delay1();
+
 	}
 }
