@@ -512,7 +512,8 @@ void RF24Init(void)
 
 int main (void)
 {
-	char full, empty;
+	char empty;
+	char full;
 	uart0Init(9600);
 	SPI_Init();
 	
@@ -536,10 +537,8 @@ int main (void)
 	////////////////////////////////////////openWritingPipe(rxAddr);
 	delay();
 	stopListening();
-	write(2,32);
-	delay();
-	
-	empty = read_register(TX_EMPTY);
+	write(2,32);	
+
 	delay();
 	delay();
 	CE_HIGH();
@@ -550,9 +549,13 @@ int main (void)
 	while (1)
 	{
 //////// nadajnik//////////
+		full = read_register(TX_EMPTY);
+		delay();
+		if( !full )
+		{
 			spiTrans(REUSE_TX_PL);
 			delay1();
 			delay1();
-
+		}
 	}
 }
