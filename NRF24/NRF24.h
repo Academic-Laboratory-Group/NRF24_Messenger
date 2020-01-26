@@ -23,17 +23,6 @@
 //brief\Min of two variables
 #define rf24_min(a,b) (a<b?a:b)
 
-//brief\Transmission address
-const uint8_t rxAddr[] = "00010";
-
-//brief\Unabled dynamic payloads
-uint8_t  dynamic_payloads_enabled = 0;
-
-//brief\Available reading addresses.
-//			In this library we used only
-//			one of them
-uint8_t pipe0_reading_address[5] ;
-
 //brief\Delay for ... 
 void delay(void);
 
@@ -109,13 +98,8 @@ uint8_t getDataRate( void );
 
 //brief\Writes buffor to registers
 //param\Adress to start from
-//param\Pointer to buffor to send
 //param\Length of buffor
-void write_register2(uint8_t reg, const uint8_t* buf, uint8_t len);
-
-//brief\Open pipe to write
-//param\Adress of chosen pipe
-void openWritingPipe(const uint8_t* address);
+void write_register2(uint8_t reg, uint8_t len);
 
 //brief\Sets everything needed to stop 
 //			reading and start writing
@@ -136,10 +120,6 @@ void startFastWrite(const uint8_t buf, uint8_t len) ;
 //param\Buffor to send
 //param\Length of buffor to send
 void write(const uint8_t buf, uint8_t len);
-
-//brief\Opens reading pipe
-//param\Address of pipe we want to read from
-void openReadingPipe(const uint8_t *address);
 
 //brief\Closes reading pipe
 //param\Pipe we want to close

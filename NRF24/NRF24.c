@@ -179,28 +179,18 @@ uint8_t getDataRate( void )
 }
 
 
-void write_register2(uint8_t reg, const uint8_t* buf, uint8_t len)
+void write_register2(uint8_t reg, uint8_t len)
 {
+	uint8_t rxAddr[] = "00010";
+	uint8_t *addr = rxAddr;
 	beginTransaction();
 	SPI_Transmit(W_REGISTER | (REGISTER_MASK & reg));
 	while (len--)
-		SPI_Transmit(*buf++);
+		SPI_Transmit(*addr++);
 		delay1();
 	endTransaction();
 }
 
-void openWritingPipe(const uint8_t* address)
-{
-	delay();
-	write_register2(RX_ADDR_P0, address, 5);
-	delay();
-	
-	write_register2(TX_ADDR, address, 5);
-	delay();
-	
-	write_register(RX_PW_P0, 32);
-	delay();
-}
 
 void stopListening(void)
 {
@@ -275,23 +265,6 @@ void write(const uint8_t buf, uint8_t len)
 
 }
 
-void openReadingPipe(const uint8_t *address)
-{
-	/////child = 0////
-	delay();
-	memcpy(pipe0_reading_address,&address,5);
-	delay();
-	
-	write_register2(RX_ADDR_P0, address, 5);
-	delay();
-	
-	write_register(RX_PW_P0,32);
-	delay();
-	
-	write_register(EN_RXADDR,read_register(EN_RXADDR) | _BV(ERX_P0));
-	delay();
-}
-
 void closeReadingPipe( uint8_t pipe )
 {
   write_register(EN_RXADDR,read_register(EN_RXADDR) & ~_BV(ERX_P1));
@@ -319,7 +292,7 @@ void read_payload( void* buf, uint8_t data_len)
 	 uint8_t* current = buf;
 	
   if(data_len > 32) data_len = 32;
-  char blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
+  char blank_len =  32 - data_len;
 	
 	beginTransaction();
   SPI_Transmit( R_RX_PAYLOAD );
@@ -346,11 +319,8 @@ void read( void* buf, uint8_t len )
 	delay();
 }
 
-void RF24Init(void)
+void RF24_Init(void)
 {
-	
-	pipe0_reading_address[0]=0;
-	
 	//ce
 	PTA -> PCOR |= 1UL << 5;
 	delay();
@@ -377,10 +347,10 @@ void RF24Init(void)
 	write_register(EN_AA,1);
 	delay();
 	
-	write_register2(RX_ADDR_P0, rxAddr, 5);
+	write_register2(RX_ADDR_P0, 5);
 	delay();
 	
-	write_register2(TX_ADDR, rxAddr, 5);
+	write_register2(TX_ADDR, 5);
 	delay();
 	
 	write_register(RX_PW_P0, 32);
