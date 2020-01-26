@@ -8,6 +8,15 @@ void ASCII_Encoder(uint8_t received)
 	*received_uart_data = (char)((uint32_t)received);
 }
 
+void UART0_Transmit_word(const char *str)
+{
+    while(*str != '\0')
+    {
+			 while(!(UART0->S1 & UART0_S1_TDRE_MASK)){}
+        UART0_Transmit(*str++);
+    }
+}
+
 void UART0_Init(uint32_t naud_rate)
 {
 	uint32_t divisor;

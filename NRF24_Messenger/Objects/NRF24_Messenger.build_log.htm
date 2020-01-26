@@ -27,18 +27,18 @@ Project File Date:  01/26/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\Keil\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-compiling main.c...
 assembling startup_MKL05Z4.s...
-compiling NRF24_Messenger.c...
-NRF24_Messenger.c(3): error:  #5: cannot open source input file "NRF24.h": No such file or directory
-  #include "NRF24.h"
-NRF24_Messenger.c: 0 warnings, 1 error
+compiling main.c...
+compiling uart0messenger.c...
+compiling SPImessenger.c...
 compiling system_MKL05Z4.c...
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c(113): warning:  #2532-D: support for trigraphs is disabled
     /* SIM->CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c: 1 warning, 0 errors
-compiling SPImessenger.c...
-compiling uart0messenger.c...
+compiling NRF24_Messenger.c...
+../NRF24/NRF24.h(169): warning:  #1-D: last line of file ends without a newline
+  #endif // NRF24
+NRF24_Messenger.c: 1 warning, 0 errors
 compiling NRF24.c...
 ..\NRF24\NRF24.h(169): warning:  #1-D: last line of file ends without a newline
   #endif // NRF24
@@ -59,7 +59,17 @@ compiling NRF24.c...
 ..\NRF24\NRF24.c(424): warning:  #177-D: variable "setup"  was declared but never referenced
   	uint16_t setup = 0;
 ..\NRF24\NRF24.c: 9 warnings, 0 errors
-".\Objects\NRF24_Messenger.axf" - 1 Error(s), 10 Warning(s).
+linking...
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol rxAddr multiply defined (by nrf24.o and nrf24_messenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol dynamic_payloads_enabled multiply defined (by nrf24.o and nrf24_messenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol pipe0_reading_address multiply defined (by nrf24.o and nrf24_messenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol SPI_Init multiply defined (by nrf24.o and spimessenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol SPI_Receive multiply defined (by nrf24.o and spimessenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol SPI_Transmit multiply defined (by nrf24.o and spimessenger.o).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 6 error messages.
+".\Objects\NRF24_Messenger.axf" - 6 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
