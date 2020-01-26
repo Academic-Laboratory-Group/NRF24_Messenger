@@ -402,11 +402,6 @@
               <FileType>1</FileType>
               <FilePath>..\UART0\uart0messenger.c</FilePath>
             </File>
-            <File>
-              <FileName>NRF24.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\NRF24\NRF24.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

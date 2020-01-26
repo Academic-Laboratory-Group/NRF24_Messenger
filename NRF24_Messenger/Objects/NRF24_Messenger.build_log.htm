@@ -5,11 +5,11 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.26.2.0
 Copyright (C) 2018 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Norbert Ligas, AGH, LIC=----
+License Information: Krzysztof Pokora, AGH, LIC=----
  
 Tool Versions:
 Toolchain:       MDK-Lite  Version: 5.26.2.0
-Toolchain Path:  D:\Programs\Keil\ARM\ARMCC\Bin
+Toolchain Path:  D:\Programy\Keil\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
 Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
@@ -21,45 +21,55 @@ Target DLL:      PEMicro\Pemicro_ArmCortexInterface.dll V1.11
 Dialog DLL:      TARMCM1.DLL V1.14.0.0
  
 <h2>Project:</h2>
-D:\Dokumenty\Pulpit\programming_stuff\projekty_wersje_ostateczne\NRF24_Messenger\NRF24_Messenger\NRF24_Messenger.uvprojx
+D:\STUDIA\3_ROK\Laboratorium\SMP\Messenger\NRF24_Messenger\NRF24_Messenger\NRF24_Messenger.uvprojx
 Project File Date:  01/26/2020
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programs\Keil\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Programy\Keil\ARM\ARMCC\Bin'
 Rebuild target 'Target 1'
-compiling main.c...
 assembling startup_MKL05Z4.s...
+compiling main.c...
+compiling SPImessenger.c...
 compiling NRF24_Messenger.c...
-NRF24_Messenger.c(3): error:  #5: cannot open source input file "NRF24.h": No such file or directory
-  #include "NRF24.h"
-NRF24_Messenger.c: 0 warnings, 1 error
+NRF24.h(169): warning:  #1-D: last line of file ends without a newline
+  #endif // NRF24
+NRF24_Messenger.c: 1 warning, 0 errors
 compiling system_MKL05Z4.c...
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c(113): warning:  #2532-D: support for trigraphs is disabled
     /* SIM->CLKDIV1: OUTDIV1=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,OUTDIV4=1,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0 */
 RTE\Device\MKL05Z32xxx4\system_MKL05Z4.c: 1 warning, 0 errors
-compiling SPImessenger.c...
 compiling uart0messenger.c...
 compiling NRF24.c...
-..\NRF24\NRF24.h(169): warning:  #1-D: last line of file ends without a newline
+NRF24.h(169): warning:  #1-D: last line of file ends without a newline
   #endif // NRF24
-..\NRF24\NRF24.c(147): warning:  #223-D: function "UART0_Transmit_word" declared implicitly
+NRF24.c(147): warning:  #223-D: function "UART0_Transmit_word" declared implicitly
   	UART0_Transmit_word(name);
-..\NRF24\NRF24.c(148): warning:  #223-D: function "UART0_Transmit" declared implicitly
+NRF24.c(148): warning:  #223-D: function "UART0_Transmit" declared implicitly
     UART0_Transmit(read_register(reg)+48);
-..\NRF24\NRF24.c(171): warning:  #177-D: variable "max_channel"  was declared but never referenced
+NRF24.c(171): warning:  #177-D: variable "max_channel"  was declared but never referenced
   	const uint8_t max_channel = 125;
-..\NRF24\NRF24.c(219): warning:  #223-D: function "UART0_Transmit_word" declared implicitly
+NRF24.c(219): warning:  #223-D: function "UART0_Transmit_word" declared implicitly
   		UART0_Transmit_word("ChipisConnected\n\r");
-..\NRF24\NRF24.c(227): warning:  #223-D: function "UART0_Transmit_word" declared implicitly
+NRF24.c(227): warning:  #223-D: function "UART0_Transmit_word" declared implicitly
   		UART0_Transmit_word("ChipisAvailable\n\r");
-..\NRF24\NRF24.c(295): warning:  #177-D: variable "blank_len"  was declared but never referenced
+NRF24.c(295): warning:  #177-D: variable "blank_len"  was declared but never referenced
      uint8_t blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
-..\NRF24\NRF24.c(392): warning:  #177-D: variable "len"  was declared but never referenced
+NRF24.c(392): warning:  #177-D: variable "len"  was declared but never referenced
     uint8_t len = 32;
-..\NRF24\NRF24.c(424): warning:  #177-D: variable "setup"  was declared but never referenced
+NRF24.c(424): warning:  #177-D: variable "setup"  was declared but never referenced
   	uint16_t setup = 0;
-..\NRF24\NRF24.c: 9 warnings, 0 errors
-".\Objects\NRF24_Messenger.axf" - 1 Error(s), 10 Warning(s).
+NRF24.c: 9 warnings, 0 errors
+linking...
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol rxAddr multiply defined (by nrf24.o and nrf24_messenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol dynamic_payloads_enabled multiply defined (by nrf24.o and nrf24_messenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol pipe0_reading_address multiply defined (by nrf24.o and nrf24_messenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol SPI_Init multiply defined (by nrf24.o and spimessenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol SPI_Receive multiply defined (by nrf24.o and spimessenger.o).
+.\Objects\NRF24_Messenger.axf: Error: L6200E: Symbol SPI_Transmit multiply defined (by nrf24.o and spimessenger.o).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 6 error messages.
+".\Objects\NRF24_Messenger.axf" - 6 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -77,8 +87,8 @@ Package Vendor: Keil
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_Target_1
-  D:\Programs\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
-  D:\Programs\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include
+  D:\Programy\Keil\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
+  D:\Programy\Keil\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.3.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 

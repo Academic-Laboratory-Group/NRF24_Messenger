@@ -1,32 +1,11 @@
-#include "MKL05Z4.h"
-#include "uart0messenger.h"
 #include "nRF24L01.h"
+#include "../SPI/SPImessenger.h"
+#include "NRF24.h"
 #include <cstring>
 
 #define _BV(bit) (1<<(bit))
 #define rf24_max(a,b) (a>b?a:b)
 #define rf24_min(a,b) (a<b?a:b)
-
-//const uint8_t rxAddr[] = "00010";
-					
-uint8_t  dynamic_payloads_enabled = 0;
-uint8_t pipe0_reading_address[5] ;
-	
-void delay_mc(uint32_t value){
-	uint32_t delay, x;
-	
-	for(x=0; x < value; x++){
-		for(delay=0; delay < 10000; delay++){};
-	}
-}
-
-void delay_uc(uint32_t value){
-	uint32_t delay, x;
-	
-	for(x=0; x < value; x++){
-		for(delay=0; delay < 9; delay++){};
-	}
-}
 
 void delay(void)
 {
@@ -126,14 +105,16 @@ void endTransaction(void) {
 	PTB->PSOR |= 1UL << 11;
 }
 
-void CE_HIGH(void)
-{
-	PTA->PSOR |= 1UL << 5;
-}
-void CE_LOW(void)
-{
+void CE_LOW(void) {
+	//ce
 	PTA->PCOR |= 1UL << 5;
 }
+
+void CE_HIGH(void) {
+	//ce
+	PTA->PSOR |= 1UL << 5;
+}
+
 void write_register(uint8_t reg, char value)
 {
 	beginTransaction();
@@ -148,7 +129,7 @@ char read_register(uint8_t reg)
 	char result;
 
 	beginTransaction();
-	SPI_Transmit(R_REGISTER | reg);
+	SPI_Transmit(R_REGISTER |  reg);
 	SPI_Transmit(0xFF);
 	result = SPI_Receive();
 	result = SPI_Receive();
@@ -247,23 +228,21 @@ void available(void)
 	}
 }
 
-void getDataRate( void )
+uint8_t getDataRate( void )
 {
   uint8_t dr = read_register(RF_SETUP) & (_BV(RF_DR_LOW) | _BV(RF_DR_HIGH));
 
   if ( dr == _BV(RF_DR_LOW) )
   {
-    UART0_Transmit_word("250KBPS\n\r");
+    return 250;
   }
   else if ( dr == _BV(RF_DR_HIGH) )
   {
-    // '01' = 2MBPS
-    UART0_Transmit_word("2MPS\n\r");
+    return 2;
   }
   else
   {
-    // '00' = 1MBPS
-    UART0_Transmit_word("1MBPS\n\r");
+    return 1;
   }
 }
 
@@ -293,21 +272,26 @@ void openWritingPipe(const uint8_t* address)
 
 void stopListening(void)
 {
-
-	write_register(NRF_CONFIG, read_register(NRF_CONFIG) & ~_BV(PRIM_RX));
-	delay();
-	//write_register(NRF_CONFIG,0x1F);
-	//write_register(EN_RXADDR, read_register(EN_RXADDR) | _BV(ERX_P0)); // Enable RX on pipe0
-
-	flush_tx();
 	delay1();
+	delay1();
+	
+	delay1();
+	delay1();
+	//flush_tx();
+	delay();
+	
+	//write_register(NRF_CONFIG, read_register(NRF_CONFIG) & ~_BV(PRIM_RX));
+	//delay();
+	write_register(NRF_CONFIG,0x1F);
+	//write_register(EN_RXADDR, read_register(EN_RXADDR) | _BV(ERX_P0)); // Enable RX on pipe0
+	//delay();
 }
 
 void write_payload(const uint8_t buf, uint8_t data_len, const uint8_t writeType)
 {
   const uint8_t current = (buf);
 
-   //data_len = rf24_min(data_len, 32);
+   data_len = rf24_min(data_len, 32);
    uint8_t blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
 
 	beginTransaction();
@@ -317,7 +301,6 @@ void write_payload(const uint8_t buf, uint8_t data_len, const uint8_t writeType)
 		SPI_Transmit(current);
 		delay();
 	}
-	delay_uc(100);
 	endTransaction();
 	
 
@@ -327,13 +310,13 @@ void startFastWrite(const uint8_t buf, uint8_t len)
 { 
 	write_payload( buf, len,  W_TX_PAYLOAD);
 	//ce high
-	//PTA -> PSOR |= 1UL << 5;
-	//delay1();
-	//delay1();
-	//delay1();
+	PTA -> PSOR |= 1UL << 5;
+	delay1();
+	delay1();
+	delay1();
 	//ce low
-	//PTA->PCOR |= 1UL << 5;
-	//delay();
+	PTA->PCOR |= 1UL << 5;
+	delay();
 	//write_register(NRF_STATUS,0x1E);
 	//delay();
 	
@@ -348,9 +331,11 @@ void startFastWrite(const uint8_t buf, uint8_t len)
 
 void write(const uint8_t buf, uint8_t len)
 {
+	flush_tx(); 
+	delay();
 	
 	startFastWrite(buf, len);
-	//delay();
+	delay();
 	
 	//write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	//delay();
@@ -384,7 +369,7 @@ void closeReadingPipe( uint8_t pipe )
 
 void startListening(void)
 {
-	delay();
+	//delay();
 	write_register(NRF_CONFIG, 0x1E);
   //write_register(NRF_CONFIG, read_register(NRF_CONFIG) | _BV(PRIM_RX));
 	//delay();
@@ -394,7 +379,7 @@ void startListening(void)
 
   //write_register2(RX_ADDR_P0, pipe0_reading_address, 5);	
 	//delay();
-	PTA->PSOR |= 1UL << 5;
+	//PTA->PSOR |= 1UL << 5;
 	//flush_tx();
 }
 
@@ -424,12 +409,10 @@ void read_payload( void* buf, uint8_t data_len)
   endTransaction();
 }
 
+
 void read( void* buf, uint8_t len )
 {
   read_payload( buf, len );
-	delay();
-	
-	write_register(NRF_STATUS,0x50);
 	delay();
 }
 
@@ -441,7 +424,7 @@ void RF24Init(void)
 	uint16_t setup = 0;
 		//ce
 	PTA -> PCOR |= 1UL << 5;
-	delay_uc(5);
+	delay();
 	
 		//csn 
 	PTA -> PSOR |= 1UL << 11;
@@ -450,36 +433,18 @@ void RF24Init(void)
 	write_register(NRF_CONFIG, 0x0C);			//1
 	delay();
 	
-	//setRetries(15, 15);						//1
-	//delay();
-	
 	setDataRate(); //2MBPS				//2
 	delay();
-	
-  //setup = read_register(RF_SETUP);			//1
-	//delay();
-	
-	//toggle_features();	
-  //delay();
-																	//????
-	//write_register(FEATURE, 0);	
-	//delay();  											//????
-	
-	//write_register(DYNPD,0);
-	//delay();
-	
-	//write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
-	//delay();
-	
+
 	setChannel(50);
 	delay();
 
-	flush_rx();				//?????
+	flush_rx();	
 	delay();
 	
-	flush_tx();				//??????
+	flush_tx();
 	delay();
-/////
+	
 	write_register(EN_AA,1);
 	delay();
 	
@@ -501,61 +466,7 @@ void RF24Init(void)
 	write_register(RF_SETUP,1<<3|1<<2);
 	delay();
 	
-////////	
 	powerUp(); 
 	delay();
-	
-  //write_register(NRF_CONFIG, ( read_register(NRF_CONFIG) ) & ~_BV(PRIM_RX) );
-	//delay();
-	
 }
 
-int main (void)
-{
-	char empty;
-	char full;
-	uart0Init(9600);
-	SPI_Init();
-	
-
-	
-	UART0_Transmit_word("NRF24L01\n\r");
-	
-	delay_mc(100);
-
-	RF24Init();
-	delay_mc(5);
-	
-	//delay2();
-	//available();
-	//delay2();
-	//getDataRate();
-	//delay();
-	//isChipConnected();
-	
-/////// nadajnik//////////
-	////////////////////////////////////////openWritingPipe(rxAddr);
-	delay();
-	stopListening();
-	write(2,32);	
-
-	delay();
-	delay();
-	CE_HIGH();
-	delay1();
-	delay1();
-/////////////////
-
-	while (1)
-	{
-//////// nadajnik//////////
-		full = read_register(TX_EMPTY);
-		delay();
-		if( !full )
-		{
-			spiTrans(REUSE_TX_PL);
-			delay1();
-			delay1();
-		}
-	}
-}
