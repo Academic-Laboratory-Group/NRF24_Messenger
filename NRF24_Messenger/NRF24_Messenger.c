@@ -10,7 +10,7 @@ char full = 0;
 void messenger_Init(void)
 {
 	UART0_Init(9600);
-	NRF24_Init();
+	RF24_Init();
 	UART0_Transmit_word("NRF24L01 Messenger\n\r");
 }
 

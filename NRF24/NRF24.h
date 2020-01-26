@@ -97,11 +97,8 @@ void powerUp(void);
 
 //brief\CGives info about connected/
 //			disconnected radio
-void isChipConnected(void);
-
-//brief\Checks if it is any data on rx fifo
-//			to read
-void available(void);
+//return\true or false in uint8_t
+uint8_t isChipConnected(void);
 
 //brief\Gives info about data rate
 //returns\Value of data rate. If
@@ -164,6 +161,6 @@ void read( void* buf, uint8_t len );
 //brief\Inits RF24. Sets all needed 
 //			registers required for proper
 //			radio work.
-void RF24Init(void);
+void RF24_Init(void);
 
 #endif // NRF24

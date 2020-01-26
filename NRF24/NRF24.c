@@ -1,6 +1,6 @@
 #include "nRF24L01.h"
-#include "../SPI/SPImessenger.h"
 #include "NRF24.h"
+#include "../SPI/SPImessenger.h"
 #include <cstring>
 
 #define _BV(bit) (1<<(bit))
@@ -39,60 +39,6 @@ void ledsInit(void)
   PORTB->PCR[9] = PORT_PCR_MUX(1UL); 
 	
 	PTB->PDDR |= 1UL << 9;
-}
-
-void SPI_Init ( void ) 
-{
-   
-  SIM -> SCGC4 |= SIM_SCGC4_SPI0_MASK ;       // wlacz zegar do modulu spi0
-   
-	SIM -> SCGC5 |= (SIM_SCGC5_PORTA_MASK | SIM_SCGC5_PORTB_MASK);     // wlacz zegar do portu A.
-	
-	SPI0 -> C1 &=~ SPI_C1_SPE_MASK ;         // Wylacz system SPI
-	PORTA -> PCR[7] &= ~PORT_PCR_MUX_MASK;
-	PORTA -> PCR[7] |= PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			  //SS
-	
-  PORTA -> PCR[6] &= ~PORT_PCR_MUX_MASK;
-	PORTA -> PCR[6] |= PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			  //MISO 
-	
-  PORTA -> PCR[7] &= ~PORT_PCR_MUX_MASK;
-	PORTA -> PCR[7] |= PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			  //MOSI
-	
-  PORTB -> PCR[0] &= ~PORT_PCR_MUX_MASK;
-	PORTB -> PCR[0] = PORT_PCR_MUX(3)|PORT_PCR_DSE_MASK;			    //SCK
-	
-	//csn Init
-	SIM -> SCGC5 |= SIM_SCGC5_PORTB_MASK;
-	PORTB -> PCR[11] &= ~PORT_PCR_MUX_MASK;
-	PORTB -> PCR[11] |= PORT_PCR_MUX(1UL);
-	PTB->PDDR |= 1UL << 11;
-	PTB -> PSOR |= 1UL << 11;
-	//
-	//ce
-	PORTA -> PCR[5] &= ~PORT_PCR_MUX_MASK;
-	PORTA -> PCR[5] |= PORT_PCR_MUX(1)|PORT_PCR_DSE_MASK;	
-	//
-	SPI0->C1 |= SPI_C1_MSTR_MASK;		// ustawienie jak master
-	SPI0->BR = 0x06;								//bate  rate
-	SPI0->C1 |= SPI_C1_SSOE_MASK;      //slave
-	SPI0->C2 &= SPI_C2_MODFEN_MASK;		//ustawienie slave
-	
-	PTA -> PDDR |= 1UL << 5;
-	PTA -> PSOR |= 1UL << 5;
-	
-	SPI0->C1 |= SPI_C1_SPE_MASK;			//wlacz System SPI
-}
-
-void SPI_Transmit (char data)
-{
-	while(!(SPI0->S & SPI_S_SPTEF_MASK));
-	SPI0->D = data;
-}
-
-char SPI_Receive(void)
-{
-	while (!(SPI0->S & SPI_S_SPRF_MASK));
-	return SPI0->D;
 }
 
 void beginTransaction(void) {
@@ -142,12 +88,6 @@ char read_register(uint8_t reg)
 	return result;
 }
 
-void print_byte_register(const char* name, uint8_t reg)
-{
-	UART0_Transmit_word(name);
-  UART0_Transmit(read_register(reg)+48);
-}
-
 void setRetries(uint8_t delay, uint8_t count)
 {
 	write_register(SETUP_RETR, (delay & 0xf) << ARD | (count & 0xf) << ARC);
@@ -168,7 +108,6 @@ void setDataRate(void)
 
 void setChannel(uint8_t channel)
 {
-	const uint8_t max_channel = 125;
 	write_register(RF_CH, channel);
 }
 
@@ -211,21 +150,14 @@ void powerUp(void)
 	}
 }
 
-void isChipConnected(void)
+uint8_t isChipConnected(void)
 {
 	uint8_t setup = read_register(SETUP_AW);
 	if (setup >= 1 && setup <= 3)
 	{
-		UART0_Transmit_word("ChipisConnected\n\r");
+		return 1;
 	}
-}
-
-void available(void)
-{
-	if (!(read_register(FIFO_STATUS) & _BV(RX_EMPTY))) 
-	{
-		UART0_Transmit_word("ChipisAvailable\n\r");
-	}
+	return 0;
 }
 
 uint8_t getDataRate( void )
@@ -292,7 +224,6 @@ void write_payload(const uint8_t buf, uint8_t data_len, const uint8_t writeType)
   const uint8_t current = (buf);
 
    data_len = rf24_min(data_len, 32);
-   uint8_t blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
 
 	beginTransaction();
 	SPI_Transmit(writeType);
@@ -389,7 +320,6 @@ void read_payload( void* buf, uint8_t data_len)
 	
   if(data_len > 32) data_len = 32;
   char blank_len = dynamic_payloads_enabled ? 0 : 32 - data_len;
-  uint8_t len = 32;
 	
 	beginTransaction();
   SPI_Transmit( R_RX_PAYLOAD );
@@ -421,12 +351,11 @@ void RF24Init(void)
 	
 	pipe0_reading_address[0]=0;
 	
-	uint16_t setup = 0;
-		//ce
+	//ce
 	PTA -> PCOR |= 1UL << 5;
 	delay();
 	
-		//csn 
+	//csn 
 	PTA -> PSOR |= 1UL << 11;
 	delay();
 	

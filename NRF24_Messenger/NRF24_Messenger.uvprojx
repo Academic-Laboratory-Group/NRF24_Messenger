@@ -393,6 +393,11 @@
               <FilePath>.\NRF24_Messenger.c</FilePath>
             </File>
             <File>
+              <FileName>NRF24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NRF24\NRF24.c</FilePath>
+            </File>
+            <File>
               <FileName>SPImessenger.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SPI\SPImessenger.c</FilePath>

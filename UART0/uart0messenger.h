@@ -25,4 +25,7 @@ void UART0_Transmit(char data);
 //return\received char data
 char UART0_Receive(void);
 
+//brief\Transmits pointer to char array data
+//param\pointer to char type data we want to send
+void UART0_Transmit_word(const char *str);
 #endif
