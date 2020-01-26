@@ -10,7 +10,4 @@ int main(void)
 	{
 		messenger_Update();
 	}
-		
-	//EXIT
-
 }

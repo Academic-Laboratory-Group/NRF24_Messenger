@@ -383,11 +383,6 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
-              <FileName>uart0messenger.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\UART0\uart0messenger.c</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
@@ -401,6 +396,16 @@
               <FileName>SPImessenger.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\SPI\SPImessenger.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart0messenger.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\UART0\uart0messenger.c</FilePath>
+            </File>
+            <File>
+              <FileName>NRF24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\NRF24\NRF24.c</FilePath>
             </File>
           </Files>
         </Group>

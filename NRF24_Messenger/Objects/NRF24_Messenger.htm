@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\NRF24_Messenger.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\NRF24_Messenger.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Jan 07 23:10:58 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sun Jan 26 11:27:42 2020
 <BR><P>
 <H3>Maximum Stack Usage =          8 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -394,28 +394,27 @@ Global Symbols
 
 <P><STRONG><a name="[75]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[4a]"></a>SPI_Init</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, spimessenger.o(i.SPI_Init))
+<P><STRONG><a name="[46]"></a>SPI_Init</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, spimessenger.o(i.SPI_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Init
 </UL>
 
-<P><STRONG><a name="[47]"></a>SPI_Receive</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, spimessenger.o(i.SPI_Receive))
+<P><STRONG><a name="[49]"></a>SPI_Receive</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, spimessenger.o(i.SPI_Receive))
 <BR><BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Update
 </UL>
 
-<P><STRONG><a name="[46]"></a>SPI_Transmit</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, spimessenger.o(i.SPI_Transmit))
+<P><STRONG><a name="[48]"></a>SPI_Transmit</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, spimessenger.o(i.SPI_Transmit))
 <BR><BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Update
 </UL>
 
 <P><STRONG><a name="[2b]"></a>SystemInit</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, system_mkl05z4.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mkl05z4.o(.text)
 </UL>
-<P><STRONG><a name="[45]"></a>UART0_Receive</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart0messenger.o(i.UART0_Receive))
+<P><STRONG><a name="[47]"></a>UART0_Receive</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart0messenger.o(i.UART0_Receive))
 <BR><BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Update
 </UL>
 
-<P><STRONG><a name="[48]"></a>UART0_Transmit</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart0messenger.o(i.UART0_Transmit))
+<P><STRONG><a name="[4a]"></a>UART0_Transmit</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, uart0messenger.o(i.UART0_Transmit))
 <BR><BR>[Called By]<UL><LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Update
-<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Init
 </UL>
 
 <P><STRONG><a name="[3a]"></a>main</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(i.main))
@@ -427,27 +426,26 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[44]"></a>messenger_Update</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, nrf24_messenger.o(i.messenger_Update))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = messenger_Update
+<P><STRONG><a name="[43]"></a>messenger_Init</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, nrf24_messenger.o(i.messenger_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = messenger_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Transmit
-<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Receive
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Transmit
-<LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Receive
+<BR>[Calls]<UL><LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Init
+<LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[49]"></a>UART0_Init</STRONG> (Thumb, 126 bytes, Stack size 0 bytes, uart0messenger.o(i.UART0_Init))
+<P><STRONG><a name="[45]"></a>UART0_Init</STRONG> (Thumb, 126 bytes, Stack size 0 bytes, uart0messenger.o(i.UART0_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;messenger_Init
 </UL>
 
-<P><STRONG><a name="[43]"></a>messenger_Init</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, nrf24_messenger.o(i.messenger_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = messenger_Init
+<P><STRONG><a name="[44]"></a>messenger_Update</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, nrf24_messenger.o(i.messenger_Update))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = messenger_Update
 </UL>
-<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Init
-<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Transmit
-<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Init
+<BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Transmit
+<LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART0_Receive
+<LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Transmit
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Receive
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>

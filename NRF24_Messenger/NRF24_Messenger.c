@@ -1,18 +1,16 @@
+#include "MKL05Z4.h"
 #include "NRF24_Messenger.h"
+#include "NRF24.h"
 #include "../UART0/uart0messenger.h"
 #include "../SPI/SPImessenger.h"
+#include <cstring>
 
 char MISO;
 char MOSI;
-char c = 0;
 void messenger_Init(void)
 {
 	UART0_Init(9600);
 	SPI_Init();
-	for (c = 'a'; c <= 'g'; c++)
-	{
-		UART0_Transmit(c);
-	}
 }
 
 void messenger_Update(void)
