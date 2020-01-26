@@ -7,3 +7,6 @@ Komputer z płytką potrafi komunikować się za pomocą dostępnego na KL05 UAR
 
 ## Plan realizacji
 Do kumunikacji między płytką, a komputerem użyty zostanie UART0 dostępny na płytce KL05. Natomiast komunikacja między radiem, a płytką zostanie obsłużona za pomocą SPI. UART0 pozwoli na wysyłanie z komputera dowolnego ciągu znaków na płytkę KL05, która następnie przez SPI będzie przesyłać sygnał do radia. Drugie radio umieszczone na osobnej płytce będzie dane odbierać i przekazywać powrotną informację potwierdzającą udaną transmisję. Użytkownik za pomocą dowolnego terminalu powinien mieć możliwość wysłania dowolnej informacji na dany port w komputerze, do którego podpięty jest układ. Układ powinien przesłać informacje do drugiego układu oddalonego na nie więcej niż 10 metrów. 
+
+# Video with final result
+[![Watch the video](VideoFoto.jpg)](https://youtu.be/xukb0ndd0eU)
