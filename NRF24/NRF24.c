@@ -142,6 +142,12 @@ char read_register(uint8_t reg)
 	return result;
 }
 
+void print_byte_register(const char* name, uint8_t reg)
+{
+	UART0_Transmit_word(name);
+  UART0_Transmit(read_register(reg)+48);
+}
+
 void setRetries(uint8_t delay, uint8_t count)
 {
 	write_register(SETUP_RETR, (delay & 0xf) << ARD | (count & 0xf) << ARC);
@@ -205,14 +211,13 @@ void powerUp(void)
 	}
 }
 
-uint8_t isChipConnected(void)
+void isChipConnected(void)
 {
 	uint8_t setup = read_register(SETUP_AW);
 	if (setup >= 1 && setup <= 3)
 	{
-		return 1;
+		UART0_Transmit_word("ChipisConnected\n\r");
 	}
-	return 0;
 }
 
 void available(void)
@@ -335,6 +340,8 @@ void write(const uint8_t buf, uint8_t len)
 	//write_register(NRF_STATUS,_BV(RX_DR) | _BV(TX_DS) | _BV(MAX_RT) );
 	//delay();
 	
+
+
 }
 
 void openReadingPipe(const uint8_t *address)
@@ -409,16 +416,8 @@ void read( void* buf, uint8_t len )
 	delay();
 }
 
-void RF24_Init(void)
+void RF24Init(void)
 {
-	for (uint16_t i = 0; i < 500; ++i)
-	{
-		delay2();
-	}
-	
-	SPI_Init();
-	delay();
-	delay();
 	
 	pipe0_reading_address[0]=0;
 	
@@ -469,14 +468,5 @@ void RF24_Init(void)
 	
 	powerUp(); 
 	delay();
-	delay();
-	
-	flush_rx();
-	delay();
-	startListening();
-	delay();
-	CE_HIGH();
-	delay1();
-	delay1();
 }
 

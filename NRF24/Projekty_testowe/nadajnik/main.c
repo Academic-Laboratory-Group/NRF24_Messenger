@@ -7,7 +7,7 @@
 #define rf24_max(a,b) (a>b?a:b)
 #define rf24_min(a,b) (a<b?a:b)
 
-const uint8_t rxAddr[] = "00010";
+//const uint8_t rxAddr[] = "00010";
 					
 uint8_t  dynamic_payloads_enabled = 0;
 uint8_t pipe0_reading_address[5] ;
